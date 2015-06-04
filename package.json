@@ -1,0 +1,40 @@
+{
+  "name": "forwarded-parse",
+  "version": "0.0.0",
+  "description": "Parse the Forwarded header (RFC 7239) into an object",
+  "keywords": [
+    "forwarded",
+    "RFC-7239",
+    "rfc-7239",
+    "RFC7239",
+    "rfc7239",
+    "header",
+    "parser",
+    "7239",
+    "RFC",
+    "rfc"
+  ],
+  "homepage": "https://github.com/lpinca/forwarded-parse",
+  "bugs": "https://github.com/lpinca/forwarded-parse/issues",
+  "license": "MIT",
+  "author": "Luigi Pinca",
+  "files": [
+    "lib",
+    "index.js"
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lpinca/forwarded-parse.git"
+  },
+  "scripts": {
+    "coverage": "istanbul cover node_modules/.bin/_mocha",
+    "test": "mocha",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly"
+  },
+  "devDependencies": {
+    "istanbul": "0.3.x",
+    "mocha": "2.2.x",
+    "pre-commit": "1.0.x"
+  }
+}

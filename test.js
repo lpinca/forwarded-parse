@@ -17,26 +17,6 @@ describe('forwarded-parse', function () {
     });
   });
 
-  it('ignores the optional white spaces', function () {
-    assert.deepEqual(parse('foo=a,foo=b, foo=c ,foo=d  ,  foo=e'), {
-      foo: [ 'a', 'b', 'c', 'd', 'e' ]
-    });
-
-    assert.deepEqual(parse('foo=a;bar=b; baz=c ;qux=d  ;  norf=e'), {
-      foo: [ 'a' ],
-      bar: [ 'b' ],
-      baz: [ 'c' ],
-      qux: [ 'd' ],
-      norf: [ 'e' ],
-    });
-  });
-
-  it('ignores the case of the parameter names', function () {
-    assert.deepEqual(parse('foo=a,Foo=b'), {
-      foo: [ 'a', 'b' ]
-    });
-  });
-
   it('handles double quotes and escaped characters', function () {
     assert.deepEqual(parse([
       'foo="bar"',
@@ -51,6 +31,26 @@ describe('forwarded-parse', function () {
       'foo="\\§"'
     ].join(',')), {
       foo: [ 'bar', 'bar', ',;', '', ' ', '\t', '"', '\\', '¥', '§' ]
+    });
+  });
+
+  it('ignores the optional white spaces', function () {
+    assert.deepEqual(parse('foo=a,foo=b, foo="c" ,foo=d  ,  foo=e'), {
+      foo: [ 'a', 'b', 'c', 'd', 'e' ]
+    });
+
+    assert.deepEqual(parse('foo=a;bar=b; baz=c ;qux="d"  ;  norf=e'), {
+      foo: [ 'a' ],
+      bar: [ 'b' ],
+      baz: [ 'c' ],
+      qux: [ 'd' ],
+      norf: [ 'e' ],
+    });
+  });
+
+  it('ignores the case of the parameter names', function () {
+    assert.deepEqual(parse('foo=a,Foo=b'), {
+      foo: [ 'a', 'b' ]
     });
   });
 
@@ -84,6 +84,10 @@ describe('forwarded-parse', function () {
     assert.throws(function () {
       parse('foo="ba"r, foo=baz');
     }, /Unexpected character 'r' at index 8/);
+
+    assert.throws(function () {
+      parse('foo=ba r, foo=baz');
+    }, /Unexpected character 'r' at index 7/);
 
     assert.throws(function () {
       parse('foo=, foo=baz');

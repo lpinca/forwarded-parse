@@ -1,6 +1,6 @@
 {
   "name": "forwarded-parse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parse the Forwarded header (RFC 7239) into an object",
   "keywords": [
     "forwarded",

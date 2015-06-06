@@ -20,7 +20,7 @@ module.exports = parse;
  * @api public
  */
 function parse(input) {
-  var forwarded = {}
+  var forwarded = Object.create(null)
     , escape = false
     , quote = false
     , lock = false
@@ -64,7 +64,7 @@ function parse(input) {
         } else if (code === 0x22 && input.charCodeAt(i - 1) === 0x3D) {
           quote = true;
         } else if ((code === 0x2C/*','*/|| code === 0x3B/*';'*/) && (token || lock)) {
-          if (Array.isArray(forwarded[parameter])) {
+          if (forwarded[parameter]) {
             forwarded[parameter].push(token);
           } else {
             forwarded[parameter] = [token];
@@ -101,7 +101,7 @@ function parse(input) {
     throw new ParseError(input, 'Unexpected end of input');
   }
 
-  if (Array.isArray(forwarded[parameter])) {
+  if (forwarded[parameter]) {
     forwarded[parameter].push(token);
   } else {
     forwarded[parameter] = [token];

@@ -1,3 +1,4 @@
+/* istanbul ignore next */
 describe('forwarded-parse', function () {
   'use strict';
 
@@ -44,7 +45,7 @@ describe('forwarded-parse', function () {
       bar: [ 'b' ],
       baz: [ 'c' ],
       qux: [ 'd' ],
-      norf: [ 'e' ],
+      norf: [ 'e' ]
     });
   });
 

@@ -28,12 +28,12 @@
     "url": "https://github.com/lpinca/forwarded-parse.git"
   },
   "scripts": {
+    "test-travis": "istanbul _mocha --report lcovonly",
     "coverage": "istanbul cover _mocha",
-    "test": "mocha",
-    "test-travis": "istanbul cover _mocha --report lcovonly"
+    "test": "mocha"
   },
   "devDependencies": {
-    "istanbul": "0.3.x",
+    "istanbul": "0.4.x",
     "mocha": "2.3.x",
     "pre-commit": "1.1.x"
   }

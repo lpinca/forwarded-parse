@@ -23,18 +23,15 @@
     "index.js"
   ],
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/lpinca/forwarded-parse.git"
-  },
+  "repository": "lpinca/forwarded-parse",
   "scripts": {
-    "test-travis": "istanbul cover _mocha --report lcovonly",
-    "coverage": "istanbul cover _mocha",
-    "test": "mocha"
+    "test-travis": "istanbul cover tape --report lcovonly -- test.js",
+    "coverage": "istanbul cover tape -- test.js",
+    "test": "tape test.js"
   },
   "devDependencies": {
     "istanbul": "0.4.x",
-    "mocha": "2.3.x",
-    "pre-commit": "1.1.x"
+    "pre-commit": "1.1.x",
+    "tape": "4.5.x"
   }
 }

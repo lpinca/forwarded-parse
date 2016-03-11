@@ -1,131 +1,151 @@
-/* istanbul ignore next */
-describe('forwarded-parse', function () {
-  'use strict';
+'use strict';
 
-  var assert = require('assert')
-    , parse = require('./');
+var test = require('tape')
+  , parse = require('./');
 
-  it('is exported as a function', function () {
-    assert.strictEqual(typeof parse, 'function');
+test('is exported as a function', function (t) {
+  t.equal(typeof parse, 'function');
+  t.end();
+});
+
+test('parses the pairs as expected', function (t) {
+  t.deepEqual(parse('foo=a,foo=b;bar=c;baz=d;qux=e'), {
+    foo: [ 'a', 'b' ],
+    bar: [ 'c' ],
+    baz: [ 'd' ],
+    qux: [ 'e' ]
   });
 
-  it('parses the pairs as expected', function () {
-    assert.deepEqual(parse('foo=a,foo=b;bar=c;baz=d;qux=e'), {
-      foo: [ 'a', 'b' ],
-      bar: [ 'c' ],
-      baz: [ 'd' ],
-      qux: [ 'e' ]
-    });
+  t.end();
+});
+
+test('handles double quotes and escaped characters', function (t) {
+  t.deepEqual(parse([
+    'foo="bar"',
+    'foo="ba\\r"',
+    'foo=",;"',
+    'foo=""',
+    'foo=" "',
+    'foo="\t"',
+    'foo="\\""',
+    'foo="\\\\"',
+    'foo="¥"',
+    'foo="\\§"'
+  ].join(',')), {
+    foo: [ 'bar', 'bar', ',;', '', ' ', '\t', '"', '\\', '¥', '§' ]
   });
 
-  it('handles double quotes and escaped characters', function () {
-    assert.deepEqual(parse([
-      'foo="bar"',
-      'foo="ba\\r"',
-      'foo=",;"',
-      'foo=""',
-      'foo=" "',
-      'foo="\t"',
-      'foo="\\""',
-      'foo="\\\\"',
-      'foo="¥"',
-      'foo="\\§"'
-    ].join(',')), {
-      foo: [ 'bar', 'bar', ',;', '', ' ', '\t', '"', '\\', '¥', '§' ]
-    });
+  t.end();
+});
+
+test('ignores the optional white spaces', function (t) {
+  t.deepEqual(parse('foo=a,foo=b, foo="c" ,foo=d  ,  foo=e'), {
+    foo: [ 'a', 'b', 'c', 'd', 'e' ]
   });
 
-  it('ignores the optional white spaces', function () {
-    assert.deepEqual(parse('foo=a,foo=b, foo="c" ,foo=d  ,  foo=e'), {
-      foo: [ 'a', 'b', 'c', 'd', 'e' ]
-    });
-
-    assert.deepEqual(parse('foo=a;bar=b; baz=c ;qux="d"  ;  norf=e'), {
-      foo: [ 'a' ],
-      bar: [ 'b' ],
-      baz: [ 'c' ],
-      qux: [ 'd' ],
-      norf: [ 'e' ]
-    });
+  t.deepEqual(parse('foo=a;bar=b; baz=c ;qux="d"  ;  norf=e'), {
+    foo: [ 'a' ],
+    bar: [ 'b' ],
+    baz: [ 'c' ],
+    qux: [ 'd' ],
+    norf: [ 'e' ]
   });
 
-  it('ignores the case of the parameter names', function () {
-    assert.deepEqual(parse('foo=a,Foo=b'), {
-      foo: [ 'a', 'b' ]
-    });
+  t.end();
+});
+
+test('ignores the case of the parameter names', function (t) {
+  t.deepEqual(parse('foo=a,Foo=b'), {
+    foo: [ 'a', 'b' ]
   });
 
-  it('does not allow empty parameters', function () {
-    assert.throws(function () {
-      parse('foo=bar,=baz');
-    }, /Unexpected character '=' at index 8/);
-  });
+  t.end();
+});
 
-  it('throws an error if a parameter is not made of 1*tchar', function () {
-    assert.throws(function () {
-      parse('f@r=192.0.2.43');
-    }, /Unexpected character '@' at index 1/);
-  });
+test('does not allow empty parameters', function (t) {
+  t.throws(function () {
+    parse('foo=bar,=baz');
+  }, /Unexpected character '=' at index 8/);
 
-  it('throws an error if it detects a misplaced whitespace', function () {
-    assert.throws(function () {
-      parse('for =192.0.2.43');
-    }, /Unexpected character ' ' at index 3/);
+  t.end();
+});
 
-    assert.throws(function () {
-      parse('for= 192.0.2.43');
-    }, /Unexpected character ' ' at index 4/);
-  });
+test('throws an error if a parameter is not made of 1*tchar', function (t) {
+  t.throws(function () {
+    parse('f@r=192.0.2.43');
+  }, /Unexpected character '@' at index 1/);
 
-  it('throws an error if an identifier is not a token / quoted-string', function () {
-    assert.throws(function () {
-      parse('foo=b"ar"');
-    }, /Unexpected character '"' at index 5/);
+  t.end();
+});
 
-    assert.throws(function () {
-      parse('foo="ba"r, foo=baz');
-    }, /Unexpected character 'r' at index 8/);
+test('throws an error if it detects a misplaced whitespace', function (t) {
+  t.throws(function () {
+    parse('for =192.0.2.43');
+  }, /Unexpected character ' ' at index 3/);
 
-    assert.throws(function () {
-      parse('foo=ba r, foo=baz');
-    }, /Unexpected character 'r' at index 7/);
+  t.throws(function () {
+    parse('for= 192.0.2.43');
+  }, /Unexpected character ' ' at index 4/);
 
-    assert.throws(function () {
-      parse('foo=, foo=baz');
-    }, /Unexpected character ',' at index 4/);
-  });
+  t.end();
+});
 
-  it('throws an error when escaping a character not in quotes', function () {
-    assert.throws(function () {
-      parse('foo=b\\ar');
-    }, /Unexpected character '\\' at index 5/);
-  });
+test('throws an error if an identifier is not a token / quoted-string', function (t) {
+  t.throws(function () {
+    parse('foo=b"ar"');
+  }, /Unexpected character '"' at index 5/);
 
-  it('throws an error if an identifier contains an invalid character', function () {
-    assert.throws(function () {
-      parse('foo=Ω, foo=baz');
-    }, /Unexpected character 'Ω' at index 4/);
+  t.throws(function () {
+    parse('foo="ba"r, foo=baz');
+  }, /Unexpected character 'r' at index 8/);
 
-    assert.throws(function () {
-      parse('foo="Ω", foo=baz');
-    }, /Unexpected character 'Ω' at index 5/);
-  });
+  t.throws(function () {
+    parse('foo=ba r, foo=baz');
+  }, /Unexpected character 'r' at index 7/);
 
-  it('throws an error if it detects a premature end of input', function () {
-    assert.throws(function () {
-      parse('foo=');
-    }, /Unexpected end of input/);
+  t.throws(function () {
+    parse('foo=, foo=baz');
+  }, /Unexpected character ',' at index 4/);
 
-    assert.throws(function () {
-      parse('foo');
-    }, /Unexpected end of input/);
+  t.end();
+});
 
-    assert.throws(function () {
-      parse('foo="bar');
-    }, /Unexpected end of input/);
+test('throws an error when escaping a character not in quotes', function (t) {
+  t.throws(function () {
+    parse('foo=b\\ar');
+  }, /Unexpected character '\\' at index 5/);
 
-    assert.throws(function () {
-      parse('foo=bar ');
-    }, /Unexpected end of input/);
-  });
+  t.end();
+});
+
+test('throws an error if an identifier contains an invalid character', function (t) {
+  t.throws(function () {
+    parse('foo=Ω, foo=baz');
+  }, /Unexpected character 'Ω' at index 4/);
+
+  t.throws(function () {
+    parse('foo="Ω", foo=baz');
+  }, /Unexpected character 'Ω' at index 5/);
+
+  t.end();
+});
+
+test('throws an error if it detects a premature end of input', function (t) {
+  t.throws(function () {
+    parse('foo=');
+  }, /Unexpected end of input/);
+
+  t.throws(function () {
+    parse('foo');
+  }, /Unexpected end of input/);
+
+  t.throws(function () {
+    parse('foo="bar');
+  }, /Unexpected end of input/);
+
+  t.throws(function () {
+    parse('foo=bar ');
+  }, /Unexpected end of input/);
+
+  t.end();
 });

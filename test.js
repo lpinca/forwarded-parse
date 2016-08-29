@@ -9,12 +9,9 @@ test('is exported as a function', function (t) {
 });
 
 test('parses the pairs as expected', function (t) {
-  t.deepEqual(parse('foo=a,foo=b;bar=c;baz=d;qux=e'), {
-    foo: [ 'a', 'b' ],
-    bar: [ 'c' ],
-    baz: [ 'd' ],
-    qux: [ 'e' ]
-  });
+  t.deepEqual(parse('foo=a,foo=b;bar=c;baz=d;qux=e'), [
+    { foo: 'a' }, { foo: 'b', bar: 'c', baz: 'd', qux: 'e' }
+  ]);
 
   t.end();
 });
@@ -31,33 +28,47 @@ test('handles double quotes and escaped characters', function (t) {
     'foo="\\\\"',
     'foo="¥"',
     'foo="\\§"'
-  ].join(',')), {
-    foo: [ 'bar', 'bar', ',;', '', ' ', '\t', '"', '\\', '¥', '§' ]
-  });
+  ].join(',')), [
+    { foo: 'bar' },
+    { foo: 'bar' },
+    { foo: ',;' },
+    { foo: '' },
+    { foo: ' ' },
+    { foo: '\t' },
+    { foo: '"' },
+    { foo: '\\' },
+    { foo: '¥' },
+    { foo: '§' }
+  ]);
 
   t.end();
 });
 
 test('ignores the optional white spaces', function (t) {
-  t.deepEqual(parse('foo=a,foo=b, foo="c" ,foo=d  ,  foo=e'), {
-    foo: [ 'a', 'b', 'c', 'd', 'e' ]
-  });
+  t.deepEqual(parse('foo=a,foo=b, foo="c" ,foo=d  ,  foo=e'), [
+    { foo: 'a' },
+    { foo: 'b' },
+    { foo: 'c' },
+    { foo: 'd' },
+    { foo: 'e' }
+  ]);
 
-  t.deepEqual(parse('foo=a;bar=b; baz=c ;qux="d"  ;  norf=e'), {
-    foo: [ 'a' ],
-    bar: [ 'b' ],
-    baz: [ 'c' ],
-    qux: [ 'd' ],
-    norf: [ 'e' ]
-  });
+  t.deepEqual(parse('foo=a;bar=b; baz=c ;qux="d"  ;  norf=e'), [{
+    foo: 'a',
+    bar: 'b',
+    baz: 'c',
+    qux: 'd',
+    norf: 'e'
+  }]);
 
   t.end();
 });
 
 test('ignores the case of the parameter names', function (t) {
-  t.deepEqual(parse('foo=a,Foo=b'), {
-    foo: [ 'a', 'b' ]
-  });
+  t.deepEqual(parse('foo=a,Foo=b'), [
+    { foo: 'a' },
+    { foo: 'b' }
+  ]);
 
   t.end();
 });

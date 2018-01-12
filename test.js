@@ -24,8 +24,10 @@ test('handles double quotes and escaped characters', function (t) {
     'foo=""',
     'foo=" "',
     'foo="\t"',
+    'foo=" \t"',
     'foo="\\""',
     'foo="\\\\"',
+    'foo="\\\\\\a"',
     'foo="¥"',
     'foo="\\§"'
   ].join(',')), [
@@ -35,8 +37,10 @@ test('handles double quotes and escaped characters', function (t) {
     { foo: '' },
     { foo: ' ' },
     { foo: '\t' },
+    { foo: ' \t' },
     { foo: '"' },
     { foo: '\\' },
+    { foo: '\\a' },
     { foo: '¥' },
     { foo: '§' }
   ]);
@@ -65,9 +69,9 @@ test('ignores the optional white spaces', function (t) {
 });
 
 test('ignores the case of the parameter names', function (t) {
-  t.deepEqual(parse('foo=a,Foo=b'), [
+  t.deepEqual(parse('foo=a,Foo=""'), [
     { foo: 'a' },
-    { foo: 'b' }
+    { foo: '' }
   ]);
 
   t.end();
@@ -152,10 +156,6 @@ test('throws an error if it detects a premature end of input', function (t) {
 
   t.throws(function () {
     parse('foo="bar');
-  }, /Unexpected end of input/);
-
-  t.throws(function () {
-    parse('foo=bar ');
   }, /Unexpected end of input/);
 
   t.end();

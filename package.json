@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "istanbul": "0.4.x",
-    "pre-commit": "1.1.x",
-    "tape": "4.6.x"
+    "pre-commit": "1.2.x",
+    "tape": "4.8.x"
   }
 }

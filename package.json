@@ -25,12 +25,10 @@
   "main": "index.js",
   "repository": "lpinca/forwarded-parse",
   "scripts": {
-    "test-travis": "istanbul cover tape --report lcovonly -- test.js",
-    "coverage": "istanbul cover tape -- test.js",
-    "test": "tape test.js"
+    "test": "nyc --reporter=html --reporter=text tape test.js"
   },
   "devDependencies": {
-    "istanbul": "0.4.x",
+    "nyc": "14.1.x",
     "pre-commit": "1.2.x",
     "tape": "4.8.x"
   }

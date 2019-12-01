@@ -55,7 +55,7 @@ console.log(parse('for=198.51.100.17;by=203.0.113.60;proto=http;host=example.com
 [npm-forwarded-parse-badge]: https://img.shields.io/npm/v/forwarded-parse.svg
 [npm-forwarded-parse]: https://www.npmjs.com/package/forwarded-parse
 [travis-forwarded-parse-badge]: https://img.shields.io/travis/lpinca/forwarded-parse/master.svg
-[travis-forwarded-parse]: https://travis-ci.org/lpinca/forwarded-parse
+[travis-forwarded-parse]: https://travis-ci.com/lpinca/forwarded-parse
 [coverage-forwarded-parse-badge]: https://img.shields.io/coveralls/lpinca/forwarded-parse/master.svg
 [coverage-forwarded-parse]: https://coveralls.io/r/lpinca/forwarded-parse?branch=master
 [rfc7239]: http://tools.ietf.org/html/rfc7239

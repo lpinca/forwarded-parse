@@ -20,7 +20,8 @@
   "author": "Luigi Pinca",
   "files": [
     "lib",
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "main": "index.js",
   "repository": "lpinca/forwarded-parse",

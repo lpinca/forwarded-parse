@@ -26,11 +26,10 @@
   "main": "index.js",
   "repository": "lpinca/forwarded-parse",
   "scripts": {
-    "test": "c8 --reporter=html --reporter=text tape test.js"
+    "test": "c8 --reporter=lcov --reporter=text tape test.js"
   },
   "devDependencies": {
     "c8": "^7.3.0",
-    "coveralls": "^3.1.0",
     "pre-commit": "^1.2.2",
     "tape": "^5.0.1"
   }

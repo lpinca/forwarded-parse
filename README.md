@@ -64,4 +64,4 @@ console.log(
   https://img.shields.io/coveralls/lpinca/forwarded-parse/master.svg
 [coverage-forwarded-parse]:
   https://coveralls.io/r/lpinca/forwarded-parse?branch=master
-[rfc7239]: http://tools.ietf.org/html/rfc7239
+[rfc7239]: https://datatracker.ietf.org/doc/html/rfc7239

@@ -95,6 +95,10 @@ test('throws an error if a parameter is not made of 1*tchar', function (t) {
 
 test('throws an error if it detects a misplaced whitespace', function (t) {
   t.throws(function () {
+    parse(' for=192.0.2.43');
+  }, /Unexpected character ' ' at index 0/);
+
+  t.throws(function () {
     parse('for =192.0.2.43');
   }, /Unexpected character ' ' at index 3/);
 
@@ -156,6 +160,14 @@ test('throws an error if it detects a premature end of input', function (t) {
 
   t.throws(function () {
     parse('foo="bar');
+  }, /Unexpected end of input/);
+
+  t.throws(function () {
+    parse('foo=bar ');
+  }, /Unexpected end of input/);
+
+  t.throws(function () {
+    parse('foo=""\t');
   }, /Unexpected end of input/);
 
   t.end();

@@ -59,7 +59,11 @@ function parse(header) {
     code = header.charCodeAt(i);
 
     if (parameter === undefined) {
-      if (start === -1 && (code === 0x20/*' '*/|| code === 0x09/*'\t'*/)) {
+      if (
+        i !== 0 &&
+        start === -1 &&
+        (code === 0x20/*' '*/ || code === 0x09/*'\t'*/)
+      ) {
         continue;
       }
 
@@ -132,7 +136,13 @@ function parse(header) {
     }
   }
 
-  if (parameter === undefined || inQuotes || start === -1 && end === -1) {
+  if (
+    parameter === undefined ||
+    inQuotes ||
+    (start === -1 && end === -1) ||
+    code === 0x20 ||
+    code === 0x09
+  ) {
     throw new ParseError('Unexpected end of input', header);
   }
 

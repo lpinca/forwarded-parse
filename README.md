@@ -57,7 +57,7 @@ console.log(
 [npm-forwarded-parse-badge]: https://img.shields.io/npm/v/forwarded-parse.svg
 [npm-forwarded-parse]: https://www.npmjs.com/package/forwarded-parse
 [ci-forwarded-parse-badge]:
-  https://img.shields.io/github/workflow/status/lpinca/forwarded-parse/CI/master?label=CI
+  https://img.shields.io/github/actions/workflow/status/lpinca/forwarded-parse/ci.yml?branch=master&label=CI
 [ci-forwarded-parse]:
   https://github.com/lpinca/forwarded-parse/actions?query=workflow%3ACI+branch%3Amaster
 [coverage-forwarded-parse-badge]:

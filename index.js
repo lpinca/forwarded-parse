@@ -160,3 +160,4 @@ function parse(header) {
 }
 
 module.exports = parse;
+module.exports.parse = parse;

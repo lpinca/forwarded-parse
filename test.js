@@ -8,6 +8,11 @@ test('is exported as a function', function (t) {
   t.end();
 });
 
+test('is also exported as `parse` named export', function (t) {
+  t.equal(parse.parse, parse);
+  t.end();
+});
+
 test('parses the pairs as expected', function (t) {
   t.deepEqual(parse('foo=a,foo=b;bar=c;baz=d;qux=e'), [
     { foo: 'a' }, { foo: 'b', bar: 'c', baz: 'd', qux: 'e' }

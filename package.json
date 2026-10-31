@@ -30,7 +30,6 @@
   },
   "devDependencies": {
     "c8": "^7.3.0",
-    "pre-commit": "^1.2.2",
     "tape": "^5.0.1"
   }
 }
